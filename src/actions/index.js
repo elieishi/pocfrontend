@@ -1,5 +1,5 @@
 import marketplace from "../apis/marketplace";
-import {GET_LISTINGS_ACTION} from "../actions/types";
+import {GET_LISTINGS_ACTION, SELECTED_PRODUCT} from "../actions/types";
 export const getListings = () => async dispatch =>
 {
         return marketplace.get('/listings')
@@ -18,6 +18,14 @@ export const getListingsAction= response => {
 
     return {
         type: GET_LISTINGS_ACTION,
+        payload: response
+    };
+};
+
+export const selectedProduct= response => {
+
+    return {
+        type: SELECTED_PRODUCT,
         payload: response
     };
 };

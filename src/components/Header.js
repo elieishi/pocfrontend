@@ -16,7 +16,7 @@ const Header = () => {
                         href="#"
                         className="inline-block no-underline bg-black text-white text-sm py-2 px-3"
                     >
-                        Login / Regsiter
+                        Login / Register
                     </a>
                 </div>
             </div>

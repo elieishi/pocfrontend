@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import {getListings} from "../actions";
+import ProductDetail from "./ProductDetail";
 
 class App extends React.Component {
 
@@ -22,6 +23,7 @@ class App extends React.Component {
                         <Header/>
                         <Navigation/>
                         <Route path="/" exact component={Home} />
+                        <Route path="/productDetail" exact component={ProductDetail} />
                         <Footer/>
                     </div>
                 </Router>

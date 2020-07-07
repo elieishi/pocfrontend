@@ -1,8 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
 import Product from "./Product";
+import history from "../utils/history";
+import {getListingsAction, selectedProduct} from "../actions";
 
 class Home extends React.Component {
+
+    renderImageDetail = (product) =>
+    {
+        this.props.selectedProduct(product)
+        let path = `ProductDetail`;
+        history.push(path)
+    }
 
      renderImages() {
 
@@ -15,6 +24,7 @@ class Home extends React.Component {
                      <Product
                          key={product.id}
                          item={product}
+                         onClick={() => this.renderImageDetail(product)}
                      />
                  )
              });
@@ -122,10 +132,12 @@ class Home extends React.Component {
      }
 }
 
-
-
 const mapStateToProps = (state) => {
-    return { products :state.listings.products}
+    return { products :state.productListingsStore.products}
 };
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = dispatch => ({
+    selectedProduct: (product) => dispatch(selectedProduct(product))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

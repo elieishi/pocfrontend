@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
 import { reducer as formReducer } from 'redux-form';
-import listingReducer from './listingReducer'
+import listingProductsReducer from './listingProductsReducer'
+import selectedProduct from './selectedProductReducer'
 
 export default combineReducers({
-    listings:listingReducer,
+    productListingsStore:listingProductsReducer,
+    selectedProductStore:selectedProduct,
     form: formReducer,
 })
