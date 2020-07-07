@@ -1,5 +1,31 @@
 import React from "react";
+import {connect} from "react-redux";
+import Product from "./Product";
+
 class Home extends React.Component {
+
+     renderImages() {
+
+         let products = null;
+
+         if (this.props.products != null)
+         {
+             products = this.props.products.data.map((product) => {
+                 return (
+                     <Product
+                         key={product.id}
+                         item={product}
+                     />
+                 )
+             });
+
+             return (
+                 <div className="container max-w-4xl mx-auto pb-10 flex flex-wrap">{products}</div>
+             )
+         }
+
+         return products;
+     }
      render() {
          return (
              <div>
@@ -49,160 +75,7 @@ class Home extends React.Component {
                              </select>
                          </div>
                      </div>
-                     <div className="container max-w-4xl mx-auto pb-10 flex flex-wrap">
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3 mb-4">
-                             <a href="#">
-                                 <img
-                                     src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800"
-                                     className="w-full h-auto rounded-lg"
-                                 />
-                             </a>
-                             <h2 className="text-xl py-4">
-                                 <a href="#" className="text-black no-underline">
-                                     Product name
-                                 </a>
-                             </h2>
-                             <p className="text-xs leading-normal">
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                 minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                 aliquip.
-                             </p>
-                         </div>
-                     </div>
+                     {this.renderImages()}
                      <div className="container max-w-4xl mx-auto pb-10 flex justify-between items-center px-3">
                          <div className="text-xs">
                              <a
@@ -249,4 +122,10 @@ class Home extends React.Component {
      }
 }
 
-export default Home;
+
+
+const mapStateToProps = (state) => {
+    return { products :state.listings.products}
+};
+
+export default connect(mapStateToProps, null)(Home);
