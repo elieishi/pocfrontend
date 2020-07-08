@@ -1,28 +1,69 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux"
+import {loginUser, logoutUser} from "../actions";
 
-const Header = () => {
+class Header extends React.Component{
 
-    return (
-            <header className="w-full px-6 bg-white">
-                <div className="container mx-auto max-w-4xl md:flex justify-between items-center">
-                <a
-                    href="#"
-                    className="block py-6 w-full text-center md:text-left md:w-auto text-gray-600 no-underline flex justify-center items-center"
+    renderLoginButton()
+    {
+        return (
+            <div className="w-full md:w-auto mb-6 md:mb-0 text-center md:text-right">
+                <Link
+                    to="login"
+                    className="inline-block no-underline bg-black text-white text-sm py-2 px-3"
                 >
-                    Your Logo
-                </a>
+                    Login / Register
+                </Link>
+            </div>
+        )
+    }
+
+    renderAuthButton(){
+        if (this.props.isSignedIn === null) {
+            return this.renderLoginButton()
+        } else if (this.props.isSignedIn)
+        {
+            return (
                 <div className="w-full md:w-auto mb-6 md:mb-0 text-center md:text-right">
-                    <a
-                        href="#"
+                    <Link
+                        onClick={this.logout}
                         className="inline-block no-underline bg-black text-white text-sm py-2 px-3"
                     >
-                        Login / Register
-                    </a>
+                        Logout
+                    </Link>
                 </div>
-            </div>
-            </header>
-    );
 
+            );
+        } else {
+            return this.renderLoginButton()
+        }
+    }
+
+    logout = () => {
+        this.props.logoutUser();
+        localStorage.removeItem("token")
+    };
+
+    render() {
+        return (
+            <header className="w-full px-6 bg-white">
+                <div className="container mx-auto max-w-4xl md:flex justify-between items-center">
+                    <a
+                        href="#"
+                        className="block py-6 w-full text-center md:text-left md:w-auto text-gray-600 no-underline flex justify-center items-center"
+                    >
+                        Your Logo
+                    </a>
+                    {this.renderAuthButton()}
+                </div>
+            </header>
+        )
+    }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return { isSignedIn: state.auth.isSignedIn}
+};
+
+export default connect(mapStateToProps, {loginUser,logoutUser})(Header);

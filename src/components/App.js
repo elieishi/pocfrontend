@@ -8,6 +8,8 @@ import Navigation from "./Navigation";
 import Footer from "./Footer";
 import {getListings} from "../actions";
 import ProductDetail from "./ProductDetail";
+import Login from "./Login";
+import CreateListing from "./CreateListing";
 
 class App extends React.Component {
 
@@ -24,6 +26,8 @@ class App extends React.Component {
                         <Navigation/>
                         <Route path="/" exact component={Home} />
                         <Route path="/productDetail" exact component={ProductDetail} />
+                        <Route path="/login" exact component={Login}/>
+                        <Route path="/createListing" exact component={CreateListing}/>
                         <Footer/>
                     </div>
                 </Router>

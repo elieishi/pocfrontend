@@ -1,2 +1,4 @@
 export const GET_LISTINGS_ACTION = 'GET_LISTINGS_ACTION';
 export const SELECTED_PRODUCT = 'SELECTED_PRODUCT';
+export const LOGIN_IN  = 'LOGIN_IN';
+export const LOGIN_OUT = 'LOGIN_OUT';
