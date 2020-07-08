@@ -10,6 +10,8 @@ import {getListings} from "../actions";
 import ProductDetail from "./ProductDetail";
 import Login from "./Login";
 import CreateListing from "./CreateListing";
+import PrivateRoute from './PrivateRoute';
+import MyListings from "./MyListings";
 
 class App extends React.Component {
 
@@ -27,7 +29,8 @@ class App extends React.Component {
                         <Route path="/" exact component={Home} />
                         <Route path="/productDetail" exact component={ProductDetail} />
                         <Route path="/login" exact component={Login}/>
-                        <Route path="/createListing" exact component={CreateListing}/>
+                        <PrivateRoute exact path="/createListing" component={CreateListing}  />
+                        <PrivateRoute exact path="/myListings" component={MyListings}  />
                         <Footer/>
                     </div>
                 </Router>
@@ -39,6 +42,7 @@ class App extends React.Component {
 const mapDispatchToProps = dispatch => ({
     getListings: () => dispatch(getListings())
 })
+
 
 export default connect(null, mapDispatchToProps)(App);
 

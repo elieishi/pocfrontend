@@ -40,7 +40,6 @@ class Login extends React.Component {
                                     name="email"
                                     label="Email address"
                                     component={this.renderInput}
-                                    placeholder="Username or email"
                                     type="email"
                                     required
                                     autoFocus
@@ -50,7 +49,6 @@ class Login extends React.Component {
                                     name="password"
                                     label="Password"
                                     component={this.renderInput}
-                                    placeholder="Username or email"
                                     type="password"
                                     required
                                 />

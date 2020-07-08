@@ -47,7 +47,7 @@ export const loginCustomer = formValues => async  dispatch =>
             {
                 localStorage.setItem("token", response.data.access_token)
                 dispatch(loginUser(response.data))
-                history.push("createListing");
+                history.push("myListings");
             }
         })
         .catch(error => {
@@ -77,4 +77,55 @@ export const logoutUser = () =>
     return {
         type: LOGIN_OUT
     }
+}
+
+export const createListing = formValues => async  dispatch =>
+{
+    const payload = {
+        title: formValues.title,
+        description:formValues.description,
+        price:formValues.price,
+        currency: "zar",
+        category: "furniture"
+    }
+
+    const accessToken = localStorage.token;
+
+    if (accessToken)
+    {
+        const AuthStr = 'Bearer ' + accessToken;
+
+        return marketplace.post('/listings',payload, { headers: { Authorization: AuthStr } })
+            .then(response => {
+
+                console.log(response)
+                if (response.status === 201)
+                {
+                    history.push("myListings");
+                }
+            })
+            .catch(error => {
+
+                console.log(error)
+                let data = error.response.data
+
+                if (error.response.status === 401)
+                {
+                    if(data.message)
+                    {
+                        throw new SubmissionError({ _error: data.message})
+                    }
+                }
+
+                if(error.response.status === 422 )
+                {
+                    if(data.title)
+                    {
+                        throw new SubmissionError({ title: data.title, _error: data.title})
+                    }
+                }
+            })
+    }
+
+
 }
