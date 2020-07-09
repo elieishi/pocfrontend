@@ -12,6 +12,7 @@ import Login from "./Login";
 import CreateListing from "./CreateListing";
 import PrivateRoute from './PrivateRoute';
 import MyListings from "./MyListings";
+import Register from "./Register";
 
 class App extends React.Component {
 
@@ -29,6 +30,7 @@ class App extends React.Component {
                         <Route path="/" exact component={Home} />
                         <Route path="/productDetail" exact component={ProductDetail} />
                         <Route path="/login" exact component={Login}/>
+                        <Route path="/register" exact component={Register}/>
                         <PrivateRoute exact path="/createListing" component={CreateListing}  />
                         <PrivateRoute exact path="/myListings" component={MyListings}  />
                         <Footer/>

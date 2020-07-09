@@ -1,5 +1,5 @@
 import marketplace from "../apis/marketplace";
-import {GET_LISTINGS_ACTION, SELECTED_PRODUCT, LOGIN_IN, LOGIN_OUT} from "../actions/types";
+import {GET_LISTINGS_ACTION, SELECTED_PRODUCT, LOGIN_IN, LOGIN_OUT, GET_MY_LISTINGS_ACTION} from "../actions/types";
 import {SubmissionError} from "redux-form";
 import history from "../utils/history";
 
@@ -25,6 +25,14 @@ export const getListingsAction= response => {
     };
 };
 
+export const getMyListingsAction= response => {
+
+    return {
+        type: GET_MY_LISTINGS_ACTION,
+        payload: response
+    };
+};
+
 export const selectedProduct= response => {
 
     return {
@@ -39,7 +47,12 @@ export const loginCustomer = formValues => async  dispatch =>
         email: formValues.email,
         password:formValues.password,
     }
-    return marketplace.post('/login',payload)
+
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+
+    return marketplace.post('/login',payload, { headers: headers })
         .then(response => {
 
             console.log(response)
@@ -95,7 +108,12 @@ export const createListing = formValues => async  dispatch =>
     {
         const AuthStr = 'Bearer ' + accessToken;
 
-        return marketplace.post('/listings',payload, { headers: { Authorization: AuthStr } })
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': AuthStr
+        }
+
+        return marketplace.post('/listings',payload, { headers: headers })
             .then(response => {
 
                 console.log(response)
@@ -126,6 +144,82 @@ export const createListing = formValues => async  dispatch =>
                 }
             })
     }
+}
 
+export const getMyListing = () => async dispatch =>
+{
 
+    const accessToken = localStorage.token;
+
+    if (accessToken)
+    {
+        const AuthStr = 'Bearer ' + accessToken;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': AuthStr
+        }
+
+        return marketplace.get('/listings/me', { headers: headers })
+            .then(response => {
+                if (response.status === 200)
+                {
+                    dispatch(getMyListingsAction(response))
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+};
+
+export const registerCustomer = formValues => async  dispatch =>
+{
+    const payload = {
+        name:formValues.name,
+        email: formValues.email,
+        password:formValues.password,
+    }
+
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+
+    return marketplace.post('/users',payload, { headers: headers })
+        .then(response => {
+
+            console.log(response)
+            if (response.status === 201)
+            {
+                history.push("login");
+            }
+        })
+        .catch(error => {
+
+            console.log(error)
+            let data = error.response.data
+
+            if(data.message)
+            {
+                throw new SubmissionError({ _error: 'Registration failed!' })
+            }
+
+            if (error.response.status === 422)
+            {
+                if (data.name)
+                {
+                    throw new SubmissionError({ name: data.name})
+                }
+
+                if (data.email)
+                {
+                    throw new SubmissionError({ email: data.email})
+                }
+
+                if (data.password)
+                {
+                    throw new SubmissionError({ password: data.password})
+                }
+            }
+        })
 }

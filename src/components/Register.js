@@ -1,10 +1,10 @@
 import React from "react";
+import {registerCustomer} from "../actions";
 import {Field, reduxForm} from "redux-form";
-import {connect} from "react-redux"
-import {loginCustomer} from "../actions";
-import {Link} from "react-router-dom";
-class Login extends React.Component {
+import {connect} from "react-redux";
 
+class Register extends React.Component
+{
     renderError({error, touched}){
         if (touched && error){
             return (
@@ -21,10 +21,12 @@ class Login extends React.Component {
             </fieldset>
         )
     }
+
     onSubmit = (formValues) =>
     {
-        return this.props.loginCustomer(formValues)
+        return this.props.registerCustomer(formValues)
     }
+
     render() {
 
         const { error } = this.props;
@@ -34,56 +36,61 @@ class Login extends React.Component {
                 <div className="w-full max-w-xs">
                     <div className="bg-white border p-8 shadow rounded w-full mb-6">
                         <h1 className="mb-6 text-lg text-gray-900 font-thin">
-                            Login to your account
+                            Register your account
                         </h1>
                         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                                <Field
-                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                    name="email"
-                                    label="Email address"
-                                    component={this.renderInput}
-                                    type="email"
-                                    required
-                                    autoFocus
-                                />
-                                <Field
-                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                    name="password"
-                                    label="Password"
-                                    component={this.renderInput}
-                                    type="password"
-                                    required
-                                />
+
+                            <Field
+                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                name="name"
+                                label="Name"
+                                component={this.renderInput}
+                                type="text"
+                                required
+                                autoFocus
+                            />
+                            <Field
+                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                name="email"
+                                label="Email address"
+                                component={this.renderInput}
+                                type="email"
+                                required
+                                autoFocus
+                            />
+                            <Field
+                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                name="password"
+                                label="Password"
+                                component={this.renderInput}
+                                type="password"
+                                required
+                            />
                             <button
                                 type="submit"
                                 className="block w-full bg-black text-white rounded-sm py-3 text-sm tracking-wide"
                             >
-                                Sign in
+                                Sign up
                             </button>
 
                             {error && <strong className="text-sm pt-2 text-red-400">{error}</strong>}
                         </form>
 
                     </div>
-                    <p className="text-center text-sm text-gray-600 font-thin">
-                        Don't have an account yet?{" "}
-                        <Link
-                            to="/register"
-                            className="text-blue-500 no-underline hover:underline"
-                        >
-                            Sign up
-                        </Link>
-                    </p>
                 </div>
             </div>
 
-    )
+        )
     }
 }
 
 const validate = (formValues) => {
 
     const errors = {};
+
+    if (!formValues.name){
+        errors.name = "You must enter name"
+    }
 
     if (!formValues.email){
         errors.email = "You must enter email"
@@ -97,7 +104,7 @@ const validate = (formValues) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    loginCustomer: formValues => dispatch(loginCustomer(formValues))
+    registerCustomer: formValues => dispatch(registerCustomer(formValues))
 })
 
 const mapStateToProps = (state) => {
@@ -105,9 +112,9 @@ const mapStateToProps = (state) => {
 };
 
 const formWrapped = reduxForm({
-    form:'login',
+    form:'register',
     validate:validate
-})(Login);
+})(Register);
 
 
 export default connect(

@@ -1,9 +1,29 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {getMyListing} from "../actions";
+import { TablePagination } from 'react-pagination-table';
+
 
 class MyListings extends React.Component {
 
+    componentDidMount() {
+       return this.props.getMyListing()
+    }
+
     render() {
+
+        const Header = ["id", "title", "currency", "price"];
+
+        let data = []
+        let length = 0;
+
+        if (this.props.myProducts)
+        {
+            data = this.props.myProducts.data
+            length = this.props.myProducts.data.length
+        }
+
         return (
             <div>
                 {/* title */}
@@ -24,35 +44,18 @@ class MyListings extends React.Component {
                 {/* /title */}
                 <div className="w-full px-6 py-12 bg-gray-100 border-t">
                     <div className="container max-w-4xl mx-auto pb-10 flex justify-between items-center px-3">
-                        <table className="table-auto">
-                            <thead>
-                            <tr>
-                                <th className="px-4 py-2">Title</th>
-                                <th className="px-4 py-2">Author</th>
-                                <th className="px-4 py-2">Views</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td className="border px-4 py-2">Intro to CSS</td>
-                                <td className="border px-4 py-2">Adam</td>
-                                <td className="border px-4 py-2">858</td>
-                            </tr>
-                            <tr className="bg-gray-100">
-                                <td className="border px-4 py-2">
-                                    A Long and Winding Tour of the History of UI Frameworks and Tools and
-                                    the Impact on Design
-                                </td>
-                                <td className="border px-4 py-2">Adam</td>
-                                <td className="border px-4 py-2">112</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2">Intro to JavaScript</td>
-                                <td className="border px-4 py-2">Chris</td>
-                                <td className="border px-4 py-2">1,280</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <TablePagination
+                            title="My Products"
+                            subTitle=""
+                            className = "table-auto_title"
+                            react-pagination-table__header="ishimwe"
+                            headers={ Header }
+                            data={ data }
+                            columns="id.title.currency.price"
+                            perPageItemCount={ 5 }
+                            totalCount={ length}
+                            arrayOption={ [["size", 'all', ' ']] }
+                        />
                     </div>
                 </div>
             </div>
@@ -60,5 +63,14 @@ class MyListings extends React.Component {
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    getMyListing: () => dispatch(getMyListing())
+})
 
-export default MyListings
+const mapStateToProps = (state) => {
+    return { myProducts: state.productListingsStore.myProducts}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyListings);
+
+
