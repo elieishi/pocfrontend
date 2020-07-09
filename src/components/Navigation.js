@@ -14,10 +14,10 @@ const Navigation = () => {
                     Home
                 </Link>
                 <a
-                    href="#"
+                    href="/myListings"
                     className="px-2 md:pl-0 md:mr-3 md:pr-3 text-gray-700 no-underline md:border-r border-gray-300"
                 >
-                    Shopping Cart
+                    My Products
                 </a>
             </div>
                 <div className="w-full md:w-1/2 text-center md:text-right pb-4 md:p-0">

@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 
 class CreateListing extends React.Component{
 
+
     renderError({error, touched}){
         if (touched && error){
             return (
@@ -23,6 +24,7 @@ class CreateListing extends React.Component{
     }
 
     renderTextArea = ({input, className, label, autoFocus, meta}) => {
+
         return (
             <fieldset className="mb-4">
                 <label className="block text-sm text-gray-900 mb-2">{label}</label>
@@ -31,6 +33,32 @@ class CreateListing extends React.Component{
             </fieldset>
         )
     }
+    renderDropDown = ({input, className, label, autoFocus, meta}) => {
+
+        //TODO get these values from api
+        let  categories = [
+            { 'name' : "Furniture", "slug": "furniture"},
+            { 'name' : "Electronics", "slug": "electronics"},
+            { 'name' : "Cars", "slug": "cars"},
+            { 'name' : "Property", "slug": "property"},
+        ]
+
+        return (
+            <fieldset className="mb-4">
+                <label className="block text-sm text-gray-900 mb-2">{label}</label>
+                <select {...input}>
+                    <option value="">Select</option>
+                    {categories.map(this.renderSelectOptions)}
+                </select>
+                {this.renderError(meta)}
+            </fieldset>
+        )
+    }
+
+    renderSelectOptions = (category) => (
+        <option key={category.slug} value={category.slug}>{category.name}</option>
+    )
+
     onSubmit = (formValues) =>
     {
         return this.props.createListing(formValues)
@@ -67,10 +95,17 @@ class CreateListing extends React.Component{
                             <Field
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
                                 name="price"
-                                label="price"
+                                label="Price"
                                 component={this.renderInput}
                                 type="text"
                                 required
+                            />
+
+                            <Field
+                                name="category"
+                                label="Category"
+                                component={this.renderDropDown}
+                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
                             />
 
                             <button
@@ -110,6 +145,10 @@ const validate = (formValues) => {
 
     if (!formValues.price){
         errors.price = "You must enter price"
+    }
+
+    if (!formValues.category){
+        errors.category = "You must select category"
     }
 
     return errors;

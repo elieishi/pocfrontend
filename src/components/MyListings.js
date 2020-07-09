@@ -2,8 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {getMyListing} from "../actions";
-import { TablePagination } from 'react-pagination-table';
-
+import { DataTable } from 'react-data-components'
 
 class MyListings extends React.Component {
 
@@ -13,15 +12,19 @@ class MyListings extends React.Component {
 
     render() {
 
-        const Header = ["id", "title", "currency", "price"];
+        let columns = [
+            { title: 'Id', prop: 'id'  },
+            { title: 'Title', prop: 'title' },
+            { title: 'Currency', prop: 'currency' },
+            { title: 'Price', prop: 'price' },
+
+        ];
 
         let data = []
-        let length = 0;
 
         if (this.props.myProducts)
         {
             data = this.props.myProducts.data
-            length = this.props.myProducts.data.length
         }
 
         return (
@@ -44,17 +47,12 @@ class MyListings extends React.Component {
                 {/* /title */}
                 <div className="w-full px-6 py-12 bg-gray-100 border-t">
                     <div className="container max-w-4xl mx-auto pb-10 flex justify-between items-center px-3">
-                        <TablePagination
-                            title="My Products"
-                            subTitle=""
-                            className = "table-auto_title"
-                            react-pagination-table__header="ishimwe"
-                            headers={ Header }
-                            data={ data }
-                            columns="id.title.currency.price"
-                            perPageItemCount={ 5 }
-                            totalCount={ length}
-                            arrayOption={ [["size", 'all', ' ']] }
+                        <DataTable
+                            keys="id"
+                            columns={columns}
+                            initialData={data}
+                            initialPageLength={5}
+                            initialSortBy={{ prop: 'id', order: 'descending' }}
                         />
                     </div>
                 </div>
