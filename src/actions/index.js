@@ -1,18 +1,21 @@
 import marketplace from "../apis/marketplace";
-import {GET_LISTINGS_ACTION, SELECTED_PRODUCT, LOGIN_IN, LOGIN_OUT, GET_MY_LISTINGS_ACTION} from "../actions/types";
+import {GET_LISTINGS_ACTION, SELECTED_PRODUCT, LOGIN_IN, LOGIN_OUT, GET_MY_LISTINGS_ACTION, LOADING_SPINNER, STOP_LOADING_SPINNER} from "../actions/types";
 import {SubmissionError} from "redux-form";
 import history from "../utils/history";
 
 export const getListings = () => async dispatch =>
 {
+        dispatch(launchLoadingSpinner())
         return marketplace.get('/listings')
             .then(response => {
                 if (response.status === 200)
                 {
                     dispatch(getListingsAction(response))
+                    dispatch(stopLoadingSpinner())
                 }
             })
             .catch(error => {
+                dispatch(stopLoadingSpinner())
                 console.log(error)
             })
 };
@@ -52,6 +55,8 @@ export const loginCustomer = formValues => async  dispatch =>
         'Content-Type': 'application/json'
     }
 
+    dispatch(launchLoadingSpinner())
+
     return marketplace.post('/login',payload, { headers: headers })
         .then(response => {
 
@@ -60,11 +65,12 @@ export const loginCustomer = formValues => async  dispatch =>
             {
                 localStorage.setItem("token", response.data.access_token)
                 dispatch(loginUser(response.data))
+                dispatch(stopLoadingSpinner())
                 history.push("myListings");
             }
         })
         .catch(error => {
-
+            dispatch(stopLoadingSpinner())
             console.log(error)
             let data = error.response.data
 
@@ -106,6 +112,8 @@ export const createListing = formValues => async  dispatch =>
 
     if (accessToken)
     {
+        dispatch(launchLoadingSpinner())
+
         const AuthStr = 'Bearer ' + accessToken;
 
         const headers = {
@@ -115,7 +123,7 @@ export const createListing = formValues => async  dispatch =>
 
         return marketplace.post('/listings',payload, { headers: headers })
             .then(response => {
-
+                dispatch(stopLoadingSpinner())
                 console.log(response)
                 if (response.status === 201)
                 {
@@ -123,7 +131,7 @@ export const createListing = formValues => async  dispatch =>
                 }
             })
             .catch(error => {
-
+                dispatch(stopLoadingSpinner())
                 console.log(error)
                 let data = error.response.data
 
@@ -160,14 +168,19 @@ export const getMyListing = () => async dispatch =>
             'Authorization': AuthStr
         }
 
+        dispatch(launchLoadingSpinner())
+
         return marketplace.get('/listings/me', { headers: headers })
             .then(response => {
+                dispatch(stopLoadingSpinner())
+
                 if (response.status === 200)
                 {
                     dispatch(getMyListingsAction(response))
                 }
             })
             .catch(error => {
+                dispatch(stopLoadingSpinner())
                 console.log(error)
             })
     }
@@ -185,9 +198,12 @@ export const registerCustomer = formValues => async  dispatch =>
         'Content-Type': 'application/json'
     }
 
+    dispatch(launchLoadingSpinner())
+
     return marketplace.post('/users',payload, { headers: headers })
         .then(response => {
 
+            dispatch(stopLoadingSpinner())
             console.log(response)
             if (response.status === 201)
             {
@@ -195,7 +211,7 @@ export const registerCustomer = formValues => async  dispatch =>
             }
         })
         .catch(error => {
-
+            dispatch(stopLoadingSpinner())
             console.log(error)
             let data = error.response.data
 
@@ -222,4 +238,18 @@ export const registerCustomer = formValues => async  dispatch =>
                 }
             }
         })
+}
+
+export const launchLoadingSpinner = () =>
+{
+    return {
+        type: LOADING_SPINNER
+    }
+}
+
+export const stopLoadingSpinner = () =>
+{
+    return {
+        type: STOP_LOADING_SPINNER
+    }
 }

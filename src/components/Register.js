@@ -56,7 +56,6 @@ class Register extends React.Component
                                 component={this.renderInput}
                                 type="email"
                                 required
-                                autoFocus
                             />
                             <Field
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"

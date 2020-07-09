@@ -1,8 +1,10 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {connect} from "react-redux"
-import {loginCustomer} from "../actions";
+import {launchLoadingSpinner, loginCustomer} from "../actions";
 import {Link} from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
+
 class Login extends React.Component {
 
     renderError({error, touched}){
@@ -29,8 +31,13 @@ class Login extends React.Component {
 
         const { error } = this.props;
 
+        const loading = this.props.loading
+
         return (
+
             <div className="min-h-screen w-full p-6 flex justify-center items-center">
+
+                {loading ? <LoadingSpinner /> :
                 <div className="w-full max-w-xs">
                     <div className="bg-white border p-8 shadow rounded w-full mb-6">
                         <h1 className="mb-6 text-lg text-gray-900 font-thin">
@@ -44,7 +51,6 @@ class Login extends React.Component {
                                     component={this.renderInput}
                                     type="email"
                                     required
-                                    autoFocus
                                 />
                                 <Field
                                     className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
@@ -57,8 +63,10 @@ class Login extends React.Component {
                             <button
                                 type="submit"
                                 className="block w-full bg-black text-white rounded-sm py-3 text-sm tracking-wide"
+                                disabled={loading}
                             >
                                 Sign in
+
                             </button>
 
                             {error && <strong className="text-sm pt-2 text-red-400">{error}</strong>}
@@ -74,7 +82,8 @@ class Login extends React.Component {
                             Sign up
                         </Link>
                     </p>
-                </div>
+                </div>}
+
             </div>
 
     )
@@ -101,7 +110,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = (state) => {
-    return {}
+    return { loading : state.loadingSpinner.loading}
 };
 
 const formWrapped = reduxForm({

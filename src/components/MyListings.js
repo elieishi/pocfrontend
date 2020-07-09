@@ -17,7 +17,7 @@ class MyListings extends React.Component {
             { title: 'Title', prop: 'title' },
             { title: 'Currency', prop: 'currency' },
             { title: 'Price', prop: 'price' },
-
+            { title: 'Category', prop: 'category' },
         ];
 
         let data = []
