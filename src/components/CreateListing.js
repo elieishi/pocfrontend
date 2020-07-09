@@ -2,6 +2,7 @@ import React from "react";
 import {createListing} from "../actions"
 import {Field, reduxForm} from "redux-form";
 import {connect} from "react-redux";
+import LoadingSpinner from "./LoadingSpinner";
 
 class CreateListing extends React.Component{
 
@@ -66,60 +67,65 @@ class CreateListing extends React.Component{
 
     render() {
         const { error } = this.props;
+
+        const loading = this.props.loading;
+
         console.log(error)
         return (
             <div className="min-h-screen w-full p-6 flex justify-center items-center">
-                <div className="w-full max-w-xs">
-                    <div className="bg-white border p-8 shadow rounded w-full mb-6">
-                        <h1 className="mb-6 text-lg text-gray-900 font-thin">
-                            Create new listing
-                        </h1>
-                        <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                            <Field
-                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="title"
-                                label="Title"
-                                component={this.renderInput}
-                                type="text"
-                                required
-                                autoFocus
-                            />
-                            <Field
-                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="description"
-                                label="Description"
-                                component={this.renderTextArea}
-                                required
-                            />
+                {loading ? <LoadingSpinner/> :
+                    <div className="w-full max-w-xs">
+                        <div className="bg-white border p-8 shadow rounded w-full mb-6">
+                            <h1 className="mb-6 text-lg text-gray-900 font-thin">
+                                Create new listing
+                            </h1>
+                            <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                                <Field
+                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                    name="title"
+                                    label="Title"
+                                    component={this.renderInput}
+                                    type="text"
+                                    required
+                                    autoFocus
+                                />
+                                <Field
+                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                    name="description"
+                                    label="Description"
+                                    component={this.renderTextArea}
+                                    required
+                                />
 
-                            <Field
-                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="price"
-                                label="Price"
-                                component={this.renderInput}
-                                type="text"
-                                required
-                            />
+                                <Field
+                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                    name="price"
+                                    label="Price"
+                                    component={this.renderInput}
+                                    type="text"
+                                    required
+                                />
 
-                            <Field
-                                name="category"
-                                label="Category"
-                                component={this.renderDropDown}
-                                className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                            />
+                                <Field
+                                    name="category"
+                                    label="Category"
+                                    component={this.renderDropDown}
+                                    className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
+                                />
 
-                            <button
-                                type="submit"
-                                className="block w-full bg-black text-white rounded-sm py-3 text-sm tracking-wide"
-                            >
-                                Save
-                            </button>
+                                <button
+                                    type="submit"
+                                    className="block w-full bg-black text-white rounded-sm py-3 text-sm tracking-wide"
+                                >
+                                    Save
+                                </button>
 
-                            {error && <strong className="text-sm pt-2 text-red-400">{error}</strong>}
-                        </form>
+                                {error && <strong className="text-sm pt-2 text-red-400">{error}</strong>}
+                            </form>
 
+                        </div>
                     </div>
-                </div>
+                }
             </div>
 
         )
@@ -158,6 +164,9 @@ const mapDispatchToProps = dispatch => ({
     createListing: formValues => dispatch(createListing(formValues))
 })
 
+const mapStateToProps = (state) => {
+    return { loading : state.loadingSpinner.loading}
+};
 
 const formWrapped = reduxForm({
     form:'createListing',
@@ -166,6 +175,6 @@ const formWrapped = reduxForm({
 
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(formWrapped);

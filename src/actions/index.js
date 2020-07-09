@@ -253,3 +253,34 @@ export const stopLoadingSpinner = () =>
         type: STOP_LOADING_SPINNER
     }
 }
+
+export const getUserProfile = () => async dispatch =>
+{
+    const accessToken = localStorage.token;
+
+    if (accessToken) {
+        const AuthStr = 'Bearer ' + accessToken;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': AuthStr
+        }
+
+        dispatch(launchLoadingSpinner())
+        return marketplace.get('/users/me', { headers: headers })
+            .then(response => {
+                if (response.status === 200)
+                {
+                    localStorage.setItem("token", response.data.access_token)
+                    dispatch(loginUser(response.data))
+                    dispatch(stopLoadingSpinner())
+                }
+            })
+            .catch(error => {
+                dispatch(logoutUser())
+                dispatch(stopLoadingSpinner())
+                console.log(error)
+            })
+
+    }
+};

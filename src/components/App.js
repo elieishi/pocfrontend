@@ -6,7 +6,7 @@ import history from "../utils/history";
 import { connect } from 'react-redux';
 import Navigation from "./Navigation";
 import Footer from "./Footer";
-import {getListings} from "../actions";
+import {getListings, getUserProfile} from "../actions";
 import ProductDetail from "./ProductDetail";
 import Login from "./Login";
 import CreateListing from "./CreateListing";
@@ -17,6 +17,7 @@ import Register from "./Register";
 class App extends React.Component {
 
     componentDidMount = () => {
+        this.props.getUserProfile()
         this.props.getListings()
     }
 
@@ -42,7 +43,8 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    getListings: () => dispatch(getListings())
+    getListings: () => dispatch(getListings()),
+    getUserProfile: () => dispatch(getUserProfile())
 })
 
 

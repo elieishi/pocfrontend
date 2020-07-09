@@ -31,7 +31,7 @@ class Login extends React.Component {
 
         const { error } = this.props;
 
-        const loading = this.props.loading
+        const loading = this.props.loading;
 
         return (
 
