@@ -47,6 +47,5 @@ const mapDispatchToProps = dispatch => ({
     getUserProfile: () => dispatch(getUserProfile())
 })
 
-
 export default connect(null, mapDispatchToProps)(App);
 
